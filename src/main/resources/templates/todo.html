@@ -1,0 +1,22 @@
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: menu(activeTab='home')"/>
+
+<main role="main">
+   <div>
+      <h3 class="d-flex justify-content-center">NOT IMPLEMENTED !</h3>
+
+       <p class="p-2 d-flex justify-content-center" th:text="${message}"></p>
+    </div>
+</main>
+
+<div th:replace="fragments/footer.html :: footer"/>
+
+</body>
+</html>
