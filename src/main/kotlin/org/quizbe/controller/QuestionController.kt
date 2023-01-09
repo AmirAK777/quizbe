@@ -2,6 +2,7 @@ package org.quizbe.controller
 
 import org.quizbe.config.QuizbeGlobals.Constants.ERROR_MESSAGE
 import org.quizbe.config.QuizbeGlobals.Constants.SUCCESS_MESSAGE
+import org.quizbe.dao.QuestionRepository
 import org.quizbe.dto.QuestionDto
 import org.quizbe.dto.RatingDto
 import org.quizbe.exception.ScopeNotFoundException
@@ -16,6 +17,7 @@ import org.quizbe.utils.Utils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
@@ -32,7 +34,8 @@ import javax.validation.Valid
 
 @RequestMapping("/question")
 @Controller
-class QuestionController @Autowired constructor(private val topicService: TopicService,
+class QuestionController @Autowired constructor(private val questionRepository: QuestionRepository,
+                                                private val topicService: TopicService,
                                                 private val userService: UserService,
                                                 private val scopeService: ScopeService,
                                                 private val questionService: QuestionService,
@@ -147,6 +150,8 @@ class QuestionController @Autowired constructor(private val topicService: TopicS
     fun showPlay(@PathVariable("idquest") idQuestion: Long, ratingDto: RatingDto?,
                  model: Model, request: HttpServletRequest): String {
         val question = questionService.findById(idQuestion)
+        model.addAttribute("next", questionService.findNextById(idQuestion))
+        model.addAttribute("previous",questionService.findPreviousById(idQuestion))
         val currentUser = userService.findByUsername(request.userPrincipal.name)
         var userRating = ratingService.getRating(currentUser, question)?.orElse(null)
 
@@ -254,4 +259,6 @@ class QuestionController @Autowired constructor(private val topicService: TopicS
         }
         return "redirect:/question/play/$idQuestion"
     }
+
+
 }

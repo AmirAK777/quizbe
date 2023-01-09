@@ -180,7 +180,11 @@
     <div class="container d-flex justify-content-center mt-5 mb-3 text-muted">
         <a th:href="@{'/question?id-selected-topic='+${question.topic.id}+'&id-selected-scope='+${question.scope.id}}"
            th:text="#{back.to.list}"></a>
-        <span>&nbsp;&nbsp; << &nbsp;&nbsp;  >> </span>
+        <a
+                th:href="@{'/question/play/'+${previous.id}}" th:if="${previous != null}"><<</a>
+        <span>&nbsp;</span>
+        <a
+                th:href="@{'/question/play/'+${next.id}}" th:if="${next != null}">>></a>
     </div>
 
     <div class="col-7 mb-3">
@@ -199,7 +203,7 @@
                                    th:text="${rating.user.username}">&nbsp;</label>
                             <i th:if="${rating.outDated}" class="m-3" aria-hidden="true">
                                 ( <span th:text="#{obsolete}" th:title="#{rating.outdated}"
-                title="a tooltip" class="visible" style="font-size: 16px">&nbsp;&nbsp;&nbsp;</span> )
+                                        title="a tooltip" class="visible" style="font-size: 16px">&nbsp;&nbsp;&nbsp;</span> )
                             </i>
                             <i th:if="${rating.outDated == false}" class="fa fa-star"
                                th:classappend="${rating.value >= 1} ? 'rating-color'"></i>

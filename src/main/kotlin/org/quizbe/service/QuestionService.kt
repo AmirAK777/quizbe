@@ -109,8 +109,16 @@ class QuestionService @Autowired constructor(private val questionRepository: Que
         logger.info("id next :$idNext")
         return if (idNext != null) findById(idNext.toLong()) else null
     }
+    fun findPreviousById(id: Long): Question? {
+        val idPrevious = questionRepository.findPreviousById(id)
+        logger.info("id previous :$idPrevious")
+        return if (idPrevious != null) findById(idPrevious.toLong()) else null
+    }
 
     fun delete(question: Question) {
         questionRepository.delete(question)
     }
+
+
+
 }
